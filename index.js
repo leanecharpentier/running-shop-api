@@ -1,7 +1,12 @@
-const { Db } = await import("./src/config/db.js");
-const db = new Db();
-await db.connect();
+import Db from "./src/config/db.js";
+import Server from "./src/server/server.js";
 
-const { Server } = await import("./src/server/server.js");
-const server = new Server();
-server.start();
+async function init() {
+    const db = new Db();
+    await db.connect();
+
+    const server = new Server();
+    server.start();
+}
+
+init();
