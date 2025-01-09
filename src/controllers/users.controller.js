@@ -1,3 +1,4 @@
+import Joi from "joi";
 import jwt from "jsonwebtoken";
 
 import { User } from "../models/users.model.js";
@@ -69,4 +70,31 @@ async function getUserById(req, res) {
     }
 }
 
-export default { login, getUsersByRole, getUserById };
+async function createUser(req, res) {
+    const schema = Joi.object().keys({
+        role: Joi.string()
+            .required()
+            .valid("admin", "commercial", "logisticsManager", "deliveryMan", "supplier", "client"),
+        firstName: Joi.string(),
+        lastName: Joi.string(),
+        email: Joi.string().required(),
+        password: Joi.string().required(),
+        phone: Joi.string(),
+        company: Joi.string(),
+    });
+    try {
+        await schema.validateAsync(req.body);
+    } catch (error) {
+        return res.status(400).json(error.details);
+    }
+    try {
+        await User.create(req.body);
+        return res.status(201).json("User created");
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json("Internal Error Server");
+    }
+}
+
+export default { login, getUsersByRole, getUserById, createUser };

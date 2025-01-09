@@ -50,6 +50,6 @@ export const User = db_instance.define(
     {
         tableName: "Users",
         schema: "users",
-        timestamps: true,
+        timestamps: false,
     }
 );

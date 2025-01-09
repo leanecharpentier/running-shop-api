@@ -50,3 +50,38 @@
  *           type: string
  *           example: LaCharpente Prod
  */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     PostUser:
+ *       type: object
+ *       required:
+ *         - role
+ *         - email
+ *         - password
+ *       properties:
+ *         role:
+ *           schema:
+ *             $ref: '#/components/schemas/RoleEnum'
+ *           example: admin
+ *         firstName:
+ *           type: string
+ *           example: Léane
+ *         lastName:
+ *           type: string
+ *           example: Charpentier
+ *         email:
+ *           type: string
+ *           example: "leane@testmail.com"
+ *         password:
+ *           type: string
+ *           example: "azerty123456"
+ *         phone:
+ *           type: string
+ *           example: 0612345678
+ *         company:
+ *           type: string
+ *           example: LaCharpente Prod
+ */

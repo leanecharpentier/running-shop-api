@@ -91,4 +91,32 @@ router.get("/role/:role", isAuthenticated, usersController.getUsersByRole);
  */
 router.get("/:id", isAuthenticated, usersController.getUserById);
 
+/**
+ * @swagger
+ * /users:
+ *   post:
+ *     description: Add user
+ *     tags:
+ *       - Users
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: User Created
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal Error Server
+ */
+router.post("/", isAuthenticated, usersController.createUser);
+
 export default router;
