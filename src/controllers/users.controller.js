@@ -40,7 +40,6 @@ async function getUsersByRole(req, res) {
     const role = req.params.role;
     try {
         const users = await User.findAll({
-            attributes: ["idUser", "email", "password"],
             where: { role },
         });
         if (!users || users.length == 0) {
@@ -57,7 +56,6 @@ async function getUserById(req, res) {
     const id = req.params.id;
     try {
         const users = await User.findOne({
-            attributes: ["idUser", "email", "password"],
             where: { idUser: id },
         });
         if (!users || users.length == 0) {
@@ -97,4 +95,44 @@ async function createUser(req, res) {
     }
 }
 
-export default { login, getUsersByRole, getUserById, createUser };
+async function updateUser(req, res) {
+    const schema = Joi.object().keys({
+        role: Joi.string().valid(
+            "admin",
+            "commercial",
+            "logisticsManager",
+            "deliveryMan",
+            "supplier",
+            "client"
+        ),
+        firstName: Joi.string(),
+        lastName: Joi.string(),
+        email: Joi.string(),
+        password: Joi.string(),
+        phone: Joi.string(),
+        company: Joi.string(),
+    });
+    try {
+        await schema.validateAsync(req.body);
+    } catch (error) {
+        return res.status(400).json(error.details);
+    }
+    const userId = req.params.id;
+    try {
+        const user = await User.findOne({
+            where: { idUser: userId },
+        });
+        if (!user) {
+            return res.status(404).json("No data found");
+        }
+        user.set(req.body);
+        await user.save();
+        return res.status(200).json("User update");
+    } catch (error) {
+        console.error(error);
+
+        return res.status(500).json("Internal Error Server");
+    }
+}
+
+export default { login, getUsersByRole, getUserById, createUser, updateUser };

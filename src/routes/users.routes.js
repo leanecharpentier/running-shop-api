@@ -103,12 +103,7 @@ router.get("/:id", isAuthenticated, usersController.getUserById);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *               password:
- *                 type: string
+ *             $ref: '#/components/schemas/PostUser'
  *     responses:
  *       201:
  *         description: User Created
@@ -118,5 +113,28 @@ router.get("/:id", isAuthenticated, usersController.getUserById);
  *         description: Internal Error Server
  */
 router.post("/", isAuthenticated, usersController.createUser);
+
+/**
+ * @swagger
+ * /users:
+ *   put:
+ *     description: Update user
+ *     tags:
+ *       - Users
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/PostUser'
+ *     responses:
+ *       200:
+ *         description: User Updated
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal Error Server
+ */
+router.put("/:id", isAuthenticated, usersController.updateUser);
 
 export default router;
