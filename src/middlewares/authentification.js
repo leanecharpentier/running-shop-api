@@ -12,5 +12,8 @@ export default async function isAuthenticated(req, res, next) {
     if (!decodedToken) {
         return res.status(401).json("Invalid Token");
     }
+    req.auth = {
+        userId: decodedToken.userId,
+    };
     next();
 }

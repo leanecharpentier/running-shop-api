@@ -39,7 +39,7 @@ router.post("/login", usersController.login);
 
 /**
  * @swagger
- * /users/{role}:
+ * /users/role/{role}:
  *   get:
  *     description: Get users by role
  *     tags:
@@ -63,6 +63,32 @@ router.post("/login", usersController.login);
  *       500:
  *         description: Internal Error Server
  */
-router.get("/:role", isAuthenticated, usersController.getUsersByRole);
+router.get("/role/:role", isAuthenticated, usersController.getUsersByRole);
+
+/**
+ * @swagger
+ * /users/{id}:
+ *   get:
+ *     description: Get user by id
+ *     tags:
+ *       - Users
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Return the user that correspond to the id give in parameters
+ *         content:
+ *           application/json:
+ *             schema:
+ *                 $ref: '#/components/schemas/User'
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal Error Server
+ */
+router.get("/:id", isAuthenticated, usersController.getUserById);
 
 export default router;

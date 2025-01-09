@@ -52,4 +52,21 @@ async function getUsersByRole(req, res) {
     }
 }
 
-export default { login, getUsersByRole };
+async function getUserById(req, res) {
+    const id = req.params.id;
+    try {
+        const users = await User.findOne({
+            attributes: ["idUser", "email", "password"],
+            where: { idUser: id },
+        });
+        if (!users || users.length == 0) {
+            return res.status(404).json("No data found");
+        }
+        return res.status(200).json(users);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json("Internal Error Server");
+    }
+}
+
+export default { login, getUsersByRole, getUserById };
