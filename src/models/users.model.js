@@ -5,7 +5,7 @@ import db_instance from "../config/db.js";
 export const User = db_instance.define(
     "User",
     {
-        id: {
+        idUser: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,

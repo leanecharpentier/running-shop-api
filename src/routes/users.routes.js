@@ -1,6 +1,7 @@
 import { Router } from "express";
 
 import usersController from "../controllers/users.controller.js";
+import isAuthenticated from "../middlewares/authentification.js";
 
 const router = Router();
 
@@ -62,6 +63,6 @@ router.post("/login", usersController.login);
  *       500:
  *         description: Internal Error Server
  */
-router.get("/:role", usersController.getUsersByRole);
+router.get("/:role", isAuthenticated, usersController.getUsersByRole);
 
 export default router;

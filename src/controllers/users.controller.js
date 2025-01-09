@@ -18,7 +18,7 @@ async function login(req, res) {
         if (user.password === password) {
             const token = jwt.sign(
                 {
-                    userId: user.userId,
+                    userId: user.idUser,
                 },
                 SECRET_KEY,
                 {
