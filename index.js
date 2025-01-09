@@ -2,15 +2,12 @@ import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
 import { createServer } from "http";
-
-
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
 
 import db_instance from "./src/config/db.js";
+import { swaggerOptions } from "./src/documentation/documentation.js";
 import usersController from "./src/routes/users.routes.js";
-
-
-
-
 
 dotenv.config();
 const VERSION = "v1";
@@ -18,6 +15,9 @@ const VERSION = "v1";
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+const swaggerDocs = swaggerJSDoc(swaggerOptions);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use(`/api/${VERSION}/users`, usersController);
 
