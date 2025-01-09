@@ -75,6 +75,7 @@ router.get("/role/:role", isAuthenticated, usersController.getUsersByRole);
  *     parameters:
  *       - in: path
  *         name: id
+ *         description: Id of user you want information
  *         schema:
  *           type: string
  *     responses:
@@ -116,11 +117,17 @@ router.post("/", isAuthenticated, usersController.createUser);
 
 /**
  * @swagger
- * /users:
+ * /users/{id}:
  *   put:
  *     description: Update user
  *     tags:
  *       - Users
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         description: Id of user to updated
+ *         schema:
+ *           type: string
  *     requestBody:
  *       required: true
  *       content:
@@ -136,5 +143,28 @@ router.post("/", isAuthenticated, usersController.createUser);
  *         description: Internal Error Server
  */
 router.put("/:id", isAuthenticated, usersController.updateUser);
+
+/**
+ * @swagger
+ * /users/{id}:
+ *   delete:
+ *     description: Delete user
+ *     tags:
+ *       - Users
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         description: Id of user to deleted
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: User Deleted
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal Error Server
+ */
+router.delete("/:id", isAuthenticated, usersController.deleteUser);
 
 export default router;

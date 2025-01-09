@@ -135,4 +135,16 @@ async function updateUser(req, res) {
     }
 }
 
-export default { login, getUsersByRole, getUserById, createUser, updateUser };
+async function deleteUser(req, res) {
+    const userId = req.params.id;
+    try {
+        await User.destroy({
+            where: { idUser: userId },
+        });
+        return res.status(200).json("User deleted");
+    } catch (error) {
+        return res.status(500).json("Internal Error Server");
+    }
+}
+
+export default { login, getUsersByRole, getUserById, createUser, updateUser, deleteUser };
