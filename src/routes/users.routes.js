@@ -28,13 +28,40 @@ const router = Router();
  *         content:
  *           application/json:
  *             schema:
- *               type: string
- *               example: token
+ *               $ref: '#/components/schemas/LoginResponse'
  *       401:
  *         description: Unauthorized
  *       500:
  *         description: Internal Error Server
  */
 router.post("/login", usersController.login);
+
+/**
+ * @swagger
+ * /users/{role}:
+ *   get:
+ *     description: Get users by role
+ *     tags:
+ *       - Users
+ *     parameters:
+ *       - in: path
+ *         name: role
+ *         schema:
+ *           $ref: '#/components/schemas/RoleEnum'
+ *     responses:
+ *       200:
+ *         description: Return an array with all users with the role send in parameters
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Internal Error Server
+ */
+router.get("/:role", usersController.getUsersByRole);
 
 export default router;
