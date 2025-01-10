@@ -153,3 +153,32 @@
  *           type: string
  *           description: Id of supplier
  */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Order:
+ *       type: object
+ *       properties:
+ *         priceTotal:
+ *           type: number
+ *         deliveryCosts:
+ *           type: number
+ *         orderDate:
+ *           type: string
+ *           format: date-time
+ *         deliveryAddress:
+ *           type: string
+ *         deliveryBilling:
+ *           type: string
+ *         deliveryDate:
+ *           type: string
+ *           format: date-time
+ *         idRound:
+ *           type: string
+ *           description: Id of order
+ *         idUser:
+ *           type: string
+ *           description: Id of supplier
+ */
