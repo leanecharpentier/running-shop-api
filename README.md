@@ -1,4 +1,4 @@
-# TP Running Shop API
+# TP Running Shop API (Groupe avec Kévin)
 
 ## Technologies imposées
 
