@@ -85,3 +85,71 @@
  *           type: string
  *           example: LaCharpente Prod
  */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     LabelProductEnum:
+ *       type: string
+ *       enum: ["tshirt", "short"]
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     GenderedProductEnum:
+ *       type: string
+ *       enum: ["women", "men"]
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     SizeProductEnum:
+ *       type: string
+ *       enum: ["XS", "S", "M", "L", "XL"]
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     ColoursProductEnum:
+ *       type: string
+ *       enum: ["black", "white", "red", "blue", "pink", "grey", "green", "purple", "yellow", "navy"]
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Product:
+ *       type: object
+ *       properties:
+ *         label:
+ *           schema:
+ *             $ref: '#/components/schemas/LabelProductEnum'
+ *           example: tshirt
+ *         gendered:
+ *           schema:
+ *             $ref: '#/components/schemas/GenderedProductEnum'
+ *           example: tshirt
+ *         size:
+ *           schema:
+ *             $ref: '#/components/schemas/GenderedProductEnum'
+ *           example: tshirt
+ *         colours:
+ *           schema:
+ *             $ref: '#/components/schemas/ColoursProductEnum'
+ *           example: tshirt
+ *         price:
+ *           type: number
+ *         quantity:
+ *           type: number
+ *         idUser:
+ *           type: string
+ *           description: Id of supplier
+ */

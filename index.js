@@ -7,6 +7,7 @@ import swaggerUi from "swagger-ui-express";
 
 import db_instance from "./src/config/db.js";
 import { swaggerOptions } from "./src/documentation/documentation.js";
+import productsController from "./src/routes/products.routes.js";
 import usersController from "./src/routes/users.routes.js";
 
 dotenv.config();
@@ -20,6 +21,7 @@ const swaggerDocs = swaggerJSDoc(swaggerOptions);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 app.use(`/api/${VERSION}/users`, usersController);
+app.use(`/api/${VERSION}/products`, productsController);
 
 app.use(function (_req, res) {
     res.send("Hello World!");

@@ -5,6 +5,18 @@ import { User } from "../models/users.model.js";
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
+const userSchema = Joi.object().keys({
+    role: Joi.string()
+        .required()
+        .valid("admin", "commercial", "logisticsManager", "deliveryMan", "supplier", "client"),
+    firstName: Joi.string(),
+    lastName: Joi.string(),
+    email: Joi.string().required(),
+    password: Joi.string().required(),
+    phone: Joi.string(),
+    company: Joi.string(),
+});
+
 async function login(req, res) {
     const { email, password } = req.body;
     try {
@@ -31,7 +43,6 @@ async function login(req, res) {
         }
         res.status(401).json("Unauthorized");
     } catch (error) {
-        console.error(error);
         return res.status(500).json("Internal Error Server");
     }
 }
@@ -47,7 +58,6 @@ async function getUsersByRole(req, res) {
         }
         return res.status(200).json(users);
     } catch (error) {
-        console.error(error);
         return res.status(500).json("Internal Error Server");
     }
 }
@@ -63,25 +73,13 @@ async function getUserById(req, res) {
         }
         return res.status(200).json(users);
     } catch (error) {
-        console.error(error);
         return res.status(500).json("Internal Error Server");
     }
 }
 
 async function createUser(req, res) {
-    const schema = Joi.object().keys({
-        role: Joi.string()
-            .required()
-            .valid("admin", "commercial", "logisticsManager", "deliveryMan", "supplier", "client"),
-        firstName: Joi.string(),
-        lastName: Joi.string(),
-        email: Joi.string().required(),
-        password: Joi.string().required(),
-        phone: Joi.string(),
-        company: Joi.string(),
-    });
     try {
-        await schema.validateAsync(req.body);
+        await userSchema.validateAsync(req.body);
     } catch (error) {
         return res.status(400).json(error.details);
     }
@@ -89,31 +87,13 @@ async function createUser(req, res) {
         await User.create(req.body);
         return res.status(201).json("User created");
     } catch (error) {
-        console.error(error);
-
         return res.status(500).json("Internal Error Server");
     }
 }
 
 async function updateUser(req, res) {
-    const schema = Joi.object().keys({
-        role: Joi.string().valid(
-            "admin",
-            "commercial",
-            "logisticsManager",
-            "deliveryMan",
-            "supplier",
-            "client"
-        ),
-        firstName: Joi.string(),
-        lastName: Joi.string(),
-        email: Joi.string(),
-        password: Joi.string(),
-        phone: Joi.string(),
-        company: Joi.string(),
-    });
     try {
-        await schema.validateAsync(req.body);
+        await userSchema.validateAsync(req.body);
     } catch (error) {
         return res.status(400).json(error.details);
     }
@@ -129,8 +109,6 @@ async function updateUser(req, res) {
         await user.save();
         return res.status(200).json("User update");
     } catch (error) {
-        console.error(error);
-
         return res.status(500).json("Internal Error Server");
     }
 }
