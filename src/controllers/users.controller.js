@@ -5,10 +5,12 @@ import { User } from "../models/User.js";
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
+const roleSchema = Joi.string()
+    .required()
+    .valid("admin", "commercial", "logisticsManager", "deliveryMan", "supplier", "client");
+
 const userSchema = Joi.object().keys({
-    role: Joi.string()
-        .required()
-        .valid("admin", "commercial", "logisticsManager", "deliveryMan", "supplier", "client"),
+    role: roleSchema,
     firstName: Joi.string(),
     lastName: Joi.string(),
     email: Joi.string().required(),
@@ -28,6 +30,7 @@ async function login(req, res) {
             return res.status(404).json("No user found");
         }
         const expireIn = 24 * 60 * 60;
+
         if (user.password === password) {
             const token = jwt.sign(
                 {
@@ -39,9 +42,9 @@ async function login(req, res) {
                 }
             );
             res.header("Authorization", "Bearer " + token);
-            return res.status(200).json({ userId: user.userId, token: token });
+            return res.status(200).json({ userId: user.idUser, token: token });
         }
-        res.status(401).json("Unauthorized");
+        return res.status(401).json("Unauthorized");
     } catch (error) {
         return res.status(500).json("Internal Error Server");
     }
@@ -50,13 +53,22 @@ async function login(req, res) {
 async function getUsersByRole(req, res) {
     const role = req.params.role;
     try {
+        await roleSchema.required().validateAsync(role);
+    } catch (error) {
+        return res.status(400).json(error.details);
+    }
+    try {
         const users = await User.findAll({
             where: { role },
         });
         if (!users || users.length == 0) {
             return res.status(404).json("No data found");
         }
-        return res.status(200).json(users);
+        const result = users.map((user) => {
+            return user.dataValues;
+        });
+
+        return res.status(200).json(result);
     } catch (error) {
         return res.status(500).json("Internal Error Server");
     }
@@ -65,13 +77,13 @@ async function getUsersByRole(req, res) {
 async function getUserById(req, res) {
     const id = req.params.id;
     try {
-        const users = await User.findOne({
+        const user = await User.findOne({
             where: { idUser: id },
         });
-        if (!users || users.length == 0) {
+        if (!user || user.length == 0) {
             return res.status(404).json("No data found");
         }
-        return res.status(200).json(users);
+        return res.status(200).json(user.dataValues);
     } catch (error) {
         return res.status(500).json("Internal Error Server");
     }
@@ -107,7 +119,7 @@ async function updateUser(req, res) {
         }
         user.set(req.body);
         await user.save();
-        return res.status(200).json("User update");
+        return res.status(200).json("User updated");
     } catch (error) {
         return res.status(500).json("Internal Error Server");
     }
