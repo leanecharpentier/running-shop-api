@@ -9,4 +9,4 @@ COPY . .
 
 EXPOSE 3000
 
-CMD ["cross-env", "NODE_ENV=dev", "node", "./index.js"]
+CMD ["node", "./index.js"]
