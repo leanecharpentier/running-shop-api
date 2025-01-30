@@ -76,9 +76,9 @@
 
             socket.on("response", (data) => {
                 const resultDiv = document.getElementById("result");
-                resultDiv.innerHTML = "<h3>Répartition :</h3>";
+                resultDiv.innerHTML = `<h3>Répartition pour ${data.amount} :</h3>`;
 
-                for (let [value, count] of Object.entries(data)) {
+                for (let [value, count] of Object.entries(data.result)) {
                     const item = document.createElement("div");
                     item.className = "money-item";
                     item.textContent = `${count} x ${value}€`;

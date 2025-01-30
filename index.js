@@ -17,12 +17,12 @@ import usersController from "./src/routes/users.routes.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+console.log(process.env.NODE_ENV);
 
-dotenv.config();
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 const VERSION = "v1";
 
 const app = express();
-console.log("Socket.IO est prêt !");
 app.use(cors());
 app.use(express.json());
 
@@ -42,6 +42,7 @@ app.use(function (_req, res) {
 const server = createServer(app);
 const io = new Server(server);
 configureSocket(io);
+console.log(process.env.DB_PORT);
 
 server.listen(process.env.PORT, async () => {
     console.info(`Server is running on port ${process.env.PORT}`);

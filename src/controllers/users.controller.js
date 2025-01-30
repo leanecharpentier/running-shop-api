@@ -1,7 +1,7 @@
 import Joi from "joi";
 import jwt from "jsonwebtoken";
 
-import { User } from "../models/users.model.js";
+import { User } from "../models/User.js";
 
 const SECRET_KEY = process.env.SECRET_KEY;
 

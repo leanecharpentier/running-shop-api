@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-import { Order } from "../models/orders.model.js";
+import { Order } from "../models/Order.js";
 
 const orderSchema = Joi.object().keys({
     priceTotal: Joi.number().required(),
@@ -58,7 +58,6 @@ async function createOrder(req, res) {
         await Order.create(req.body);
         return res.status(201).json("Order created");
     } catch (error) {
-        console.error(error);
         return res.status(500).json("Internal Error Server");
     }
 }

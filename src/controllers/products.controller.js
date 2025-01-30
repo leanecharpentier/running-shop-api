@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-import { Product } from "../models/products.model.js";
+import { Product } from "../models/Product.js";
 
 const productSchema = Joi.object().keys({
     label: Joi.string().required().valid("tshirt", "short"),
