@@ -5,7 +5,7 @@ import userController from "../controllers/users.controller.js";
 import { User } from "../models/User.js";
 import { clearDatabase } from "../tools/db.js";
 
-describe("createUser", () => {
+describe("User : createUser()", () => {
     afterEach(async function () {
         await clearDatabase();
     });
