@@ -4,7 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "dev": "node ./index.js",
+        "dev": "cross-env NODE_ENV=dev node ./index.js",
         "serve": "cross-env NODE_ENV=dev nodemon ./index.js",
         "test": "cross-env NODE_ENV=test mocha --file ./src/tools/mochaSetup.js --recursive ./src/tests/*.js --exit"
     },
