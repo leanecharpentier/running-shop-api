@@ -2,7 +2,7 @@ import { strictEqual } from "assert";
 import Joi from "joi";
 import { afterEach, describe, it } from "mocha";
 
-import userController from "../controllers/users.controller.js";
+import loginController from "../controllers/login.controller.js";
 import { User } from "../models/User.js";
 import { clearDatabase } from "../tools/db.js";
 
@@ -40,7 +40,7 @@ describe("User : login()", () => {
             },
             header: function () {},
         };
-        const result = await userController.login(req, res);
+        const result = await loginController.login(req, res);
         const schema = Joi.object()
             .keys({
                 token: Joi.string(),
@@ -69,7 +69,7 @@ describe("User : login()", () => {
             },
             header: function () {},
         };
-        const result = await userController.login(req, res);
+        const result = await loginController.login(req, res);
         strictEqual(result, "No user found");
     });
     it("Should return 401 Unauthorized => incorrect password", async () => {
@@ -102,7 +102,7 @@ describe("User : login()", () => {
             },
             header: function () {},
         };
-        const result = await userController.login(req, res);
+        const result = await loginController.login(req, res);
         strictEqual(result, "Unauthorized");
     });
 });

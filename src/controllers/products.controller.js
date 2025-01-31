@@ -42,7 +42,13 @@ async function getProducts(req, res) {
         const products = await Product.findAll({
             where: req.query,
         });
-        return res.status(200).json(products);
+        if (products.length == 0 || !products) {
+            return res.status(404).json("No data found");
+        }
+        const result = products.map((user) => {
+            return user.dataValues;
+        });
+        return res.status(200).json(result);
     } catch (error) {
         return res.status(500).json("Internal Error Server");
     }
@@ -51,13 +57,13 @@ async function getProducts(req, res) {
 async function getProductById(req, res) {
     const id = req.params.id;
     try {
-        const products = await Product.findOne({
+        const product = await Product.findOne({
             where: { idProduct: id },
         });
-        if (!products || products.length == 0) {
+        if (!product || product.length == 0) {
             return res.status(404).json("No data found");
         }
-        return res.status(200).json(products);
+        return res.status(200).json(product.dataValues);
     } catch (error) {
         return res.status(500).json("Internal Error Server");
     }
@@ -93,8 +99,10 @@ async function updateProduct(req, res) {
         }
         product.set(req.body);
         await product.save();
-        return res.status(200).json("Product update");
+        return res.status(200).json("Product updated");
     } catch (error) {
+        console.error(error);
+
         return res.status(500).json("Internal Error Server");
     }
 }

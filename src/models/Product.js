@@ -64,4 +64,4 @@ export const Product = db_instance.define(
     }
 );
 
-Product.hasOne(User);
+User.hasMany(Product, { foreignKey: "idUser" });
