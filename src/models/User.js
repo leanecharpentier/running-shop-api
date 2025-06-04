@@ -12,15 +12,11 @@ export const User = db_instance.define(
             allowNull: false,
         },
         role: {
-            type: DataTypes.ENUM(
-                "admin",
-                "commercial",
-                "logisticsManager",
-                "deliveryMan",
-                "supplier",
-                "client"
-            ),
+            type: DataTypes.STRING,
             allowNull: false,
+            validate: {
+                isIn: [["admin", "commercial", "logisticsManager", "deliveryMan", "supplier", "client"]],
+            },
         },
         firstName: {
             type: DataTypes.STRING,
@@ -49,7 +45,6 @@ export const User = db_instance.define(
     },
     {
         tableName: "Users",
-        schema: "users",
         timestamps: false,
     }
 );

@@ -10,6 +10,7 @@ import { fileURLToPath } from "url";
 
 import db_instance from "./src/config/db.js";
 import configureSocket from "./src/config/socketio.js";
+import { seedDatabase } from "./src/database/seed.js";
 import { swaggerOptions } from "./src/documentation/documentation.js";
 import loginController from "./src/routes/login.routes.js";
 import ordersController from "./src/routes/orders.routes.js";
@@ -51,6 +52,7 @@ server.listen(process.env.PORT, async () => {
 try {
     await db_instance.authenticate();
     await db_instance.sync();
+    await seedDatabase();
     console.log("Connexion database ok");
 } catch (error) {
     console.error(error);

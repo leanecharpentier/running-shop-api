@@ -1,0 +1,45 @@
+// seed.js
+import db from "../config/db.js";
+import { Order } from "../models/Order.js";
+import { Product } from "../models/Product.js";
+import { User } from "../models/User.js";
+
+export async function seedDatabase() {
+    try {
+        await db.sync({ force: true });
+
+        const user1 = await User.create({
+            role: "admin",
+            firstName: "Léane",
+            lastName: "Charpentier",
+            email: "leane@example.com",
+            password: "password",
+            phone: "0612345678",
+            company: "LaCharpenteProd",
+        });
+
+        await Order.create({
+            priceTotal: 100,
+            deliveryCosts: 10,
+            orderDate: new Date(),
+            deliveryAddress: "123 rue de Paris",
+            deliveryBilling: "123 rue de Paris",
+            deliveryDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000),
+            idUser: user1.idUser,
+        });
+
+        await Product.create({
+            label: "tshirt",
+            gendered: "women",
+            size: "M",
+            colours: "blue",
+            price: 25.99,
+            quantity: 2,
+            idUser: user1.idUser,
+        });
+
+        console.log("✅ Base de données initialisée !");
+    } catch (err) {
+        console.error("❌ Erreur lors de l'initialisation :", err);
+    }
+}

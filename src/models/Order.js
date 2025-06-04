@@ -42,18 +42,18 @@ export const Order = db_instance.define(
         },
         idUser: {
             type: DataTypes.INTEGER,
+            allowNull: false,
             references: {
                 model: User,
                 key: "idUser",
             },
-            allowNull: false,
         },
     },
     {
         tableName: "Orders",
-        schema: "orders",
         timestamps: false,
     }
 );
 
-Order.hasOne(User);
+User.hasMany(Order, { foreignKey: "idUser" });
+Order.belongsTo(User, { foreignKey: "idUser" });

@@ -1,19 +1,18 @@
 import dotenv from "dotenv";
+import path from "path";
 import { Sequelize } from "sequelize";
+import { fileURLToPath } from "url";
 
-dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
+dotenv.config({ path: `.env.${process.env.NODE_ENV || "development"}` });
 
-const db_instance = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
-    host: process.env.DB_HOST,
-    dialect: process.env.DB_DIALECT,
-    port: process.env.DB_PORT,
-    logging: false,
-    dialectOptions: {
-        options: {
-            encrypt: true,
-            trustServerCertificate: true,
-        },
-    },
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const dbPath = path.resolve(__dirname, "../database/running-shop.db");
+
+const db_instance = new Sequelize({
+    dialect: "sqlite",
+    storage: dbPath,
+    logging: process.env.NODE_ENV === "development" ? console.log : false,
 });
 
 export default db_instance;

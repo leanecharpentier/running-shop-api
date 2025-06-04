@@ -14,31 +14,34 @@ export const Product = db_instance.define(
             allowNull: false,
         },
         label: {
-            type: DataTypes.ENUM("tshirt", "short"),
+            type: DataTypes.STRING,
             allowNull: false,
+            validate: {
+                isIn: [["tshirt", "short"]],
+            },
         },
         gendered: {
-            type: DataTypes.ENUM("women", "men"),
+            type: DataTypes.STRING,
             allowNull: false,
+            validate: {
+                isIn: [["women", "men"]],
+            },
         },
         size: {
-            type: DataTypes.ENUM("XS", "S", "M", "L", "XL"),
+            type: DataTypes.STRING,
             allowNull: false,
+            validate: {
+                isIn: [["XS", "S", "M", "L", "XL"]],
+            },
         },
         colours: {
-            type: DataTypes.ENUM(
-                "black",
-                "white",
-                "red",
-                "blue",
-                "pink",
-                "grey",
-                "green",
-                "purple",
-                "yellow",
-                "navy"
-            ),
+            type: DataTypes.STRING,
             allowNull: false,
+            validate: {
+                isIn: [
+                    ["black", "white", "red", "blue", "pink", "grey", "green", "purple", "yellow", "navy"],
+                ],
+            },
         },
         price: {
             type: DataTypes.DECIMAL,
@@ -50,18 +53,18 @@ export const Product = db_instance.define(
         },
         idUser: {
             type: DataTypes.INTEGER,
+            allowNull: false,
             references: {
                 model: User,
                 key: "idUser",
             },
-            allowNull: false,
         },
     },
     {
         tableName: "Products",
-        schema: "products",
         timestamps: false,
     }
 );
 
 User.hasMany(Product, { foreignKey: "idUser" });
+Product.belongsTo(User, { foreignKey: "idUser" });
