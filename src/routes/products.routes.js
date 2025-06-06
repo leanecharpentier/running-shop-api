@@ -30,7 +30,7 @@ const router = Router();
  *       500:
  *         description: Internal Error Server
  */
-router.get("/:id", isAuthenticated, productsController.getProductById);
+router.get("/:id", productsController.getProductById);
 
 /**
  * @swagger
@@ -73,7 +73,7 @@ router.get("/:id", isAuthenticated, productsController.getProductById);
  *       500:
  *         description: Internal Error Server
  */
-router.get("/", isAuthenticated, productsController.getProducts);
+router.get("/", productsController.getProducts);
 
 /**
  * @swagger
